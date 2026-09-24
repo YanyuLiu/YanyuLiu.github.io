@@ -90,8 +90,7 @@
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(250px, .65fr);
-      gap: 70px;
+      grid-template-columns: 1fr;
       min-height: 560px;
       align-items: end;
       padding: 92px 0 78px;
@@ -141,31 +140,6 @@
       color: var(--muted);
       cursor: default;
     }
-    .hero-aside {
-      border-top: 3px solid var(--text);
-      padding-top: 18px;
-      align-self: end;
-    }
-    .hero-aside p { margin: 0 0 30px; color: var(--muted); font-size: 14px; }
-    .status {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 12px;
-      line-height: 1.45;
-      color: var(--text);
-    }
-    .status-dot {
-      width: 9px;
-      height: 9px;
-      margin-top: 4px;
-      flex: none;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px var(--accent-soft);
-    }
-
     .section { padding: 86px 0; border-bottom: 1px solid var(--line); }
     .section-label {
       color: var(--accent);
@@ -399,9 +373,8 @@
       .topline { min-height: 62px; justify-content: flex-start; }
       .nav { gap: 18px; flex-wrap: wrap; }
       .nav a { font-size: 12px; white-space: nowrap; }
-      .hero { grid-template-columns: 1fr; gap: 56px; min-height: auto; padding: 72px 0 52px; }
+      .hero { min-height: auto; padding: 72px 0 52px; }
       .hero-intro { font-size: 20px; }
-      .hero-aside { width: 100%; }
       .section { padding: 62px 0; }
       .section-label { margin-bottom: 28px; }
       .project-head, .evidence-grid, .detail-grid, .about { grid-template-columns: 1fr; }
@@ -450,10 +423,6 @@
             <a href="https://www.linkedin.com/in/yanyu-anne-liu-59b2b7ab" target="_blank" rel="noopener noreferrer">[LinkedIn]</a>
           </div>
         </div>
-        <aside class="hero-aside" aria-label="Current focus">
-          <p>Product data scientist exploring dependable, useful AI through experiment design, behavioral evaluation, and product analytics.</p>
-          <div class="status"><span class="status-dot" aria-hidden="true"></span><span>Current focus<br>AI evaluation &amp; product intelligence</span></div>
-        </aside>
       </section>
 
       <section class="section project" id="projects" aria-labelledby="project-one-title">
