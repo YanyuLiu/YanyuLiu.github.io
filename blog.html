@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Blog — Yanyu (Anne) Liu</title>
+  <meta name="description" content="Notes and essays from Yanyu (Anne) Liu." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap');
+
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f7f2;
+      --surface: #ffffff;
+      --text: #151817;
+      --muted: #5e6561;
+      --line: #cdd2cc;
+      --line-strong: #969e98;
+      --accent: #d84a2f;
+      --sage: #2e5f4a;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111412;
+        --surface: #181c19;
+        --text: #f2f4ef;
+        --muted: #aeb6b0;
+        --line: #353b37;
+        --line-strong: #626a64;
+        --accent: #ff765b;
+        --sage: #92c6a9;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .page {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+    .mono, .eyebrow, .post-date { font-family: "IBM Plex Mono", monospace; }
+
+    .topline {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; gap: 26px; }
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .nav a:hover, .nav a:focus-visible, .nav a[aria-current="page"] { color: var(--accent); }
+    .nav a:focus-visible, .post-title a:focus-visible, footer a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    main { min-height: calc(100vh - 196px); }
+    .blog-header {
+      padding: 92px 0 64px;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .eyebrow {
+      color: var(--sage);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      margin: 0 0 24px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(48px, 7vw, 86px);
+      line-height: .97;
+      letter-spacing: -.055em;
+      font-weight: 600;
+    }
+    .blog-intro {
+      max-width: 660px;
+      margin: 30px 0 0;
+      color: var(--muted);
+      font-size: clamp(19px, 2.2vw, 25px);
+      line-height: 1.5;
+      letter-spacing: -.02em;
+    }
+
+    .post-list { list-style: none; margin: 0; padding: 0; }
+    .post-row {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 42px;
+      padding: 42px 0 46px;
+      border-bottom: 1px solid var(--line);
+    }
+    .post-date {
+      color: var(--accent);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .post-title {
+      margin: 0 0 14px;
+      font-size: clamp(25px, 3.5vw, 38px);
+      line-height: 1.15;
+      letter-spacing: -.035em;
+      font-weight: 600;
+    }
+    .post-title a { text-decoration: none; }
+    .post-title a:hover { color: var(--accent); }
+    .post-summary { max-width: 720px; margin: 0; color: var(--muted); font-size: 17px; }
+
+    .empty-state {
+      min-height: 310px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+    }
+    .empty-state p {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.2;
+      letter-spacing: -.035em;
+      font-weight: 600;
+    }
+    .empty-state span {
+      display: block;
+      margin-top: 12px;
+      color: var(--muted);
+      font: 400 13px/1.6 "IBM Plex Mono", monospace;
+      letter-spacing: 0;
+    }
+
+    footer {
+      min-height: 120px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    footer a { text-underline-offset: 4px; }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 32px, 680px); }
+      .topline { min-height: 62px; justify-content: flex-start; }
+      .nav { gap: 18px; flex-wrap: wrap; }
+      .nav a { font-size: 12px; white-space: nowrap; }
+      .blog-header { padding: 72px 0 50px; }
+      .post-row { grid-template-columns: 1fr; gap: 12px; padding: 34px 0 38px; }
+      .empty-state { min-height: 250px; }
+      footer { align-items: flex-start; flex-direction: column; justify-content: center; padding: 30px 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topline" aria-label="Site navigation">
+      <nav class="nav">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#about">About</a>
+        <a href="blog.html" aria-current="page">Blog</a>
+      </nav>
+    </div>
+
+    <main>
+      <header class="blog-header">
+        <p class="eyebrow">Essays · Notes · Observations</p>
+        <h1>Blog</h1>
+        <p class="blog-intro">Writing on AI systems, product measurement, and the questions that emerge along the way.</p>
+      </header>
+
+      <ol class="post-list" id="post-list" aria-label="Blog posts"></ol>
+      <div class="empty-state" id="empty-state">
+        <div>
+          <p>Coming soon.</p>
+          <span>Notes are on the way.</span>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <span>Yanyu (Anne) Liu</span>
+      <a href="../index.html">Back home ←</a>
+    </footer>
+  </div>
+
+  <script>
+    const blogPosts = [];
+
+    const postList = document.getElementById('post-list');
+    const emptyState = document.getElementById('empty-state');
+
+    blogPosts
+      .slice()
+      .sort(function (a, b) { return new Date(b.date) - new Date(a.date); })
+      .forEach(function (post) {
+        const item = document.createElement('li');
+        item.className = 'post-row';
+
+        const date = document.createElement('time');
+        date.className = 'post-date';
+        date.dateTime = post.date;
+        date.textContent = post.displayDate;
+
+        const body = document.createElement('div');
+        const title = document.createElement('h2');
+        title.className = 'post-title';
+        const titleLink = document.createElement('a');
+        titleLink.href = post.url;
+        titleLink.textContent = post.title;
+        title.appendChild(titleLink);
+
+        const summary = document.createElement('p');
+        summary.className = 'post-summary';
+        summary.textContent = post.summary;
+
+        body.appendChild(title);
+        body.appendChild(summary);
+        item.appendChild(date);
+        item.appendChild(body);
+        postList.appendChild(item);
+      });
+
+    if (blogPosts.length > 0) {
+      emptyState.hidden = true;
+    }
+  </script>
+</body>
+</html>
