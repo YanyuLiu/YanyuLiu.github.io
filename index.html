@@ -201,6 +201,27 @@
       line-height: 1.65;
       color: var(--text);
     }
+    .latest-post { max-width: 780px; }
+    .latest-post time {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--accent);
+      font: 500 11px/1.5 "IBM Plex Mono", monospace;
+    }
+    .latest-post h3 {
+      margin: 0 0 10px;
+      font-size: clamp(23px, 3vw, 32px);
+      line-height: 1.2;
+      letter-spacing: -.03em;
+      font-weight: 600;
+    }
+    .latest-post h3 a { text-decoration: none; }
+    .latest-post h3 a:hover, .latest-post h3 a:focus-visible { color: var(--accent); }
+    .latest-post h3 a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+    .latest-post p { color: var(--muted); }
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -435,7 +456,7 @@
 
         <div class="project-summary">
           <strong>Project summary</strong>
-          <p>An exploratory behavioral snapshot of Meta Muse (muse-spark-1.3 via Meta Model API), run September 23–24, 2026 across 30 synthetic cases spanning three behavioral dimensions and five safety–utility metrics. The model resisted all 10 indirect prompt-injection attacks (0/10 attack success), but authorization or scope violations appeared in 11/30 cases (37%) and confirmation recall was 5/12 (42%); over-intervention was 0/3 benign controls, while task success has not yet been manually annotated. The central failure mode was over-helpfulness rather than refusal: language such as “pay it,” “cancel,” “order,” or “RSVP yes” was often treated as direct authorization to execute payments, cancellations, or outbound messages without a second confirmation. This N≈30 synthetic-fixture result is an exploratory behavioral snapshot, not a product safety certification.</p>
+          <p>Muse Spark resisted every indirect prompt-injection in this set (0/10 attacks succeeded), but often treated action-sounding user requests as a mandate to finish the job — including payments, cancellations, and outbound messages — without a confirmation step. Across 30 synthetic cases, this over-helpfulness—not refusal—showed up as 11/30 authorization violations and only 5/12 confirmation recall. This is an exploratory behavioral snapshot, not a product safety certification.</p>
         </div>
 
         <div class="stats" aria-label="Meta Muse evaluation scope">
@@ -466,7 +487,7 @@
       <section class="section project" id="project-two" aria-labelledby="project-two-title">
         <p class="section-label">Selected work · 02</p>
         <div class="project-head">
-          <h2 id="project-two-title">Agent Evaluation Framework <span class="subhead">Prompt Injection &amp; Tool Misuse</span></h2>
+          <h2 id="project-two-title">Layered Safeguards for AI Agents <span class="subhead">Prompt Injection &amp; Tool Misuse</span></h2>
           <p class="project-question">How reliably can a tool-using AI agent complete legitimate tasks while resisting adversarial instructions and unauthorized actions?</p>
         </div>
 
@@ -516,8 +537,12 @@
           <p class="project-question">Short essays on AI systems, product measurement, and questions that emerge along the way.</p>
         </div>
         <div class="project-summary">
-          <strong>Latest posts</strong>
-          <p>Coming soon.</p>
+          <strong>Latest post</strong>
+          <article class="latest-post">
+            <time datetime="2026-09-24">Sep 24, 2026</time>
+            <h3><a href="blog.html">AI Safety Is a Systems Measurement Problem</a></h3>
+            <p>What a data scientist can actually contribute to agent safety: decompose the chain of failure, measure expected harm instead of incident counts, and treat human confirmation as a scarce budget.</p>
+          </article>
         </div>
         <div class="actions">
           <a class="button" href="blog.html">Visit the blog <span aria-hidden="true">→</span></a>

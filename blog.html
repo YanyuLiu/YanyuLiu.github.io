@@ -7,6 +7,9 @@
   <link rel="icon" href="data:," />
   <title>Blog — Yanyu (Anne) Liu</title>
   <meta name="description" content="Notes and essays from Yanyu (Anne) Liu." />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww" crossorigin="anonymous" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body, { delimiters: [{left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true}], throwOnError: false });"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap');
 
@@ -51,7 +54,7 @@
       width: min(1120px, calc(100% - 48px));
       margin: 0 auto;
     }
-    .mono, .eyebrow, .post-date { font-family: "IBM Plex Mono", monospace; }
+    .eyebrow, .post-date { font-family: "IBM Plex Mono", monospace; }
 
     .topline {
       min-height: 76px;
@@ -68,12 +71,11 @@
       font-weight: 600;
     }
     .nav a:hover, .nav a:focus-visible, .nav a[aria-current="page"] { color: var(--accent); }
-    .nav a:focus-visible, .post-title a:focus-visible, footer a:focus-visible {
+    .nav a:focus-visible, footer a:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 4px;
     }
 
-    main { min-height: calc(100vh - 196px); }
     .blog-header {
       padding: 92px 0 64px;
       border-bottom: 1px solid var(--line-strong);
@@ -101,50 +103,64 @@
       letter-spacing: -.02em;
     }
 
-    .post-list { list-style: none; margin: 0; padding: 0; }
-    .post-row {
+    .post {
+      padding: 64px 0 86px;
+      border-bottom: 1px solid var(--line);
+    }
+    .post-header {
       display: grid;
       grid-template-columns: 150px minmax(0, 1fr);
       gap: 42px;
-      padding: 42px 0 46px;
+      padding-bottom: 42px;
       border-bottom: 1px solid var(--line);
     }
     .post-date {
       color: var(--accent);
       font-size: 12px;
       line-height: 1.5;
+      padding-top: 7px;
     }
     .post-title {
-      margin: 0 0 14px;
-      font-size: clamp(25px, 3.5vw, 38px);
-      line-height: 1.15;
-      letter-spacing: -.035em;
+      max-width: 820px;
+      margin: 0;
+      font-size: clamp(34px, 5.2vw, 60px);
+      line-height: 1.05;
+      letter-spacing: -.045em;
       font-weight: 600;
     }
-    .post-title a { text-decoration: none; }
-    .post-title a:hover { color: var(--accent); }
-    .post-summary { max-width: 720px; margin: 0; color: var(--muted); font-size: 17px; }
-
-    .empty-state {
-      min-height: 310px;
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid var(--line);
+    .article-body {
+      width: min(760px, 100%);
+      margin: 48px auto 0;
+      font-size: 18px;
+      line-height: 1.78;
     }
-    .empty-state p {
-      margin: 0;
-      font-size: clamp(28px, 4vw, 44px);
+    .article-body p { margin: 0 0 24px; }
+    .article-body h3 {
+      margin: 58px 0 22px;
+      font-size: clamp(25px, 3.2vw, 34px);
       line-height: 1.2;
       letter-spacing: -.035em;
-      font-weight: 600;
     }
-    .empty-state span {
-      display: block;
-      margin-top: 12px;
-      color: var(--muted);
-      font: 400 13px/1.6 "IBM Plex Mono", monospace;
-      letter-spacing: 0;
+    .article-body strong { font-weight: 700; }
+    .article-body em { color: var(--sage); }
+    .sequence {
+      color: var(--sage);
+      font-size: 19px;
+      letter-spacing: -.015em;
     }
+    .article-body hr {
+      width: 100%;
+      height: 1px;
+      margin: 58px 0;
+      border: 0;
+      background: var(--line-strong);
+    }
+    .closing { font-size: 20px; line-height: 1.7; }
+    .katex-display {
+      margin: 30px auto 34px;
+      text-align: center;
+    }
+    .katex-display > .katex { max-width: 100%; }
 
     footer {
       min-height: 120px;
@@ -163,9 +179,19 @@
       .nav { gap: 18px; flex-wrap: wrap; }
       .nav a { font-size: 12px; white-space: nowrap; }
       .blog-header { padding: 72px 0 50px; }
-      .post-row { grid-template-columns: 1fr; gap: 12px; padding: 34px 0 38px; }
-      .empty-state { min-height: 250px; }
+      .post { padding: 44px 0 62px; }
+      .post-header { grid-template-columns: 1fr; gap: 12px; padding-bottom: 32px; }
+      .post-date { padding-top: 0; }
+      .article-body { margin-top: 34px; font-size: 16px; line-height: 1.72; }
+      .article-body h3 { margin-top: 44px; }
+      .sequence { font-size: 16px; }
+      .katex-display { font-size: .82em; margin: 26px auto 30px; }
+      .closing { font-size: 18px; }
       footer { align-items: flex-start; flex-direction: column; justify-content: center; padding: 30px 0; }
+    }
+
+    @media (max-width: 380px) {
+      .katex-display { font-size: .72em; }
     }
 
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
@@ -189,13 +215,109 @@
         <p class="blog-intro">Writing on AI systems, product measurement, and the questions that emerge along the way.</p>
       </header>
 
-      <ol class="post-list" id="post-list" aria-label="Blog posts"></ol>
-      <div class="empty-state" id="empty-state">
-        <div>
-          <p>Coming soon.</p>
-          <span>Notes are on the way.</span>
+      <article class="post" id="ai-safety-systems-measurement" aria-labelledby="post-title">
+        <header class="post-header">
+          <time class="post-date" datetime="2026-09-24">Sep 24, 2026</time>
+          <h2 class="post-title" id="post-title">AI Safety Is a Systems Measurement Problem</h2>
+        </header>
+
+        <div class="article-body">
+          <p>Recent AI safety incidents around autonomous agents got me thinking about what a data scientist can actually contribute to safety.</p>
+
+          <p>As agents gain access to browsers, code, files, and external tools, safety is no longer just about whether a model generates a harmful response. A model can make a reasonable-looking decision at each step and still end up taking an action the user never intended.</p>
+
+          <p>From a DS perspective, three things stood out to me.</p>
+
+          <h3>1. Measure the chain of failure</h3>
+
+          <p>An unsafe outcome usually happens through a sequence:</p>
+
+          <p class="sequence"><strong>Exposure → Model decision → Tool call → Action → Harm</strong></p>
+
+          <p>Instead of measuring only the final incident rate, I would decompose the probability of harm:</p>
+
+          <div>
+            \[
+            \begin{aligned}
+            P(H) ={}& P(E) \times P(F \mid E) \\
+                    &{}\times P(A \mid F) \times P(H \mid A)
+            \end{aligned}
+            \]
+          </div>
+
+          <p>where \(E\) is exposure to a risky situation, \(F\) is the model following the unsafe path, and \(A\) is the action actually being executed.</p>
+
+          <p>This changes how we think about mitigation. We don't necessarily need one perfect safety layer. If the model misses something, permissions, sandboxing, monitoring, or action-level controls can still break the chain.</p>
+
+          <p>More importantly, this decomposition tells us <strong>where the system is actually failing</strong> and where another unit of engineering effort is most valuable.</p>
+
+          <h3>2. Measure expected harm, not incident count</h3>
+
+          <p>Not every safety incident has the same consequence.</p>
+
+          <p>A bad response, an unauthorized email, and an agent deleting production data shouldn't each count as “one incident.”</p>
+
+          <p>A simple starting point is:</p>
+
+          <div>
+            \[
+            \begin{aligned}
+            \mathrm{Expected\ Harm} ={}& \sum_i P(H_i) \\
+                                        &{}\times \mathrm{Severity}(H_i)
+            \end{aligned}
+            \]
+          </div>
+
+          <p>And at the system level, I might think about risk as:</p>
+
+          <div>
+            \[
+            \begin{aligned}
+            \mathrm{Risk} ={}& \mathrm{Exposure} \times \mathrm{AttackRate} \\
+                              &{}\times \mathrm{SuccessRate} \times \mathrm{Severity}
+            \end{aligned}
+            \]
+          </div>
+
+          <p>This also makes the denominator important. If agent usage grows 10x, the number of incidents may increase even while the system becomes safer.</p>
+
+          <p>So instead of asking only <em>“How many incidents did we have?”</em>, I would also ask:</p>
+
+          <p><strong>How much expected harm are we generating per risky opportunity?</strong></p>
+
+          <h3>3. Treat human confirmation as a scarce resource</h3>
+
+          <p>One common safety solution is to ask the user before an agent takes a potentially sensitive action.</p>
+
+          <p>But confirmation has diminishing returns. If an agent asks for approval twenty times a day, users will eventually learn to click “Allow” without reading.</p>
+
+          <p>So I would treat user attention almost like a limited safety budget.</p>
+
+          <p>For example:</p>
+
+          <div>
+            \[
+            \mathrm{Loss} = \mathrm{ExpectedHarm} + \lambda \cdot \mathrm{UserFriction}
+            \]
+          </div>
+
+          <p>The goal isn't to minimize confirmation prompts or maximize them. It's to decide where confirmation actually changes behavior.</p>
+
+          <p>Low-risk, reversible actions might happen automatically. Medium-risk actions might require confirmation. High-risk or irreversible actions may need stronger controls—or simply shouldn't be executable.</p>
+
+          <p>That creates an interesting DS problem: estimate the marginal safety value of each intervention and spend user attention where it has the highest return.</p>
+
+          <hr />
+
+          <div class="closing">
+            <p>What I find interesting about recent AI safety incidents is that they make safety look increasingly like a <strong>systems measurement problem</strong>.</p>
+
+            <p>The model matters, but so do the layers around it: permissions, tools, monitoring, human attention, and the way we define harm in the first place.</p>
+
+            <p>For data scientists, the opportunity may be less about building one perfect “safety metric,” and more about figuring out <strong>where risk enters the system, how it propagates, and which intervention actually breaks the chain.</strong></p>
+          </div>
         </div>
-      </div>
+      </article>
     </main>
 
     <footer>
@@ -203,47 +325,5 @@
       <a href="../index.html">Back home ←</a>
     </footer>
   </div>
-
-  <script>
-    const blogPosts = [];
-
-    const postList = document.getElementById('post-list');
-    const emptyState = document.getElementById('empty-state');
-
-    blogPosts
-      .slice()
-      .sort(function (a, b) { return new Date(b.date) - new Date(a.date); })
-      .forEach(function (post) {
-        const item = document.createElement('li');
-        item.className = 'post-row';
-
-        const date = document.createElement('time');
-        date.className = 'post-date';
-        date.dateTime = post.date;
-        date.textContent = post.displayDate;
-
-        const body = document.createElement('div');
-        const title = document.createElement('h2');
-        title.className = 'post-title';
-        const titleLink = document.createElement('a');
-        titleLink.href = post.url;
-        titleLink.textContent = post.title;
-        title.appendChild(titleLink);
-
-        const summary = document.createElement('p');
-        summary.className = 'post-summary';
-        summary.textContent = post.summary;
-
-        body.appendChild(title);
-        body.appendChild(summary);
-        item.appendChild(date);
-        item.appendChild(body);
-        postList.appendChild(item);
-      });
-
-    if (blogPosts.length > 0) {
-      emptyState.hidden = true;
-    }
-  </script>
 </body>
 </html>
