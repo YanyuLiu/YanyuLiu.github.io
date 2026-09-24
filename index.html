@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Yany (Anne) Liu — AI Evaluation & Product Intelligence</title>
+  <meta name="description" content="Yany (Anne) Liu builds empirical evaluation systems that turn complex AI product behavior into measurable decisions." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap');
+
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f7f2;
+      --surface: #ffffff;
+      --text: #151817;
+      --muted: #5e6561;
+      --line: #cdd2cc;
+      --line-strong: #969e98;
+      --accent: #d84a2f;
+      --accent-soft: #f4d9d2;
+      --sage: #2e5f4a;
+      --sage-soft: #dbe8df;
+      --dot: #203d32;
+      --ink-panel: #203d32;
+      --ink-panel-text: #f7f7f2;
+      --accent-panel: #f1ddd7;
+      --shadow: rgba(21, 24, 23, 0.06);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111412;
+        --surface: #181c19;
+        --text: #f2f4ef;
+        --muted: #aeb6b0;
+        --line: #353b37;
+        --line-strong: #626a64;
+        --accent: #ff765b;
+        --accent-soft: #49261f;
+        --sage: #92c6a9;
+        --sage-soft: #203a2d;
+        --dot: #b7dfc8;
+        --ink-panel: #d6e7dd;
+        --ink-panel-text: #111412;
+        --accent-panel: #40241f;
+        --shadow: rgba(0, 0, 0, 0.18);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    button { font: inherit; }
+    .page {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+    .mono, .section-label, .metric-value, .eyebrow, .index, .legend { font-family: "IBM Plex Mono", monospace; }
+
+    .topline {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; gap: 26px; }
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .nav a:hover, .nav a:focus-visible { color: var(--accent); }
+    .nav a:focus-visible, .button:focus-visible, .case-row:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(250px, .65fr);
+      gap: 70px;
+      min-height: 560px;
+      align-items: end;
+      padding: 92px 0 78px;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      color: var(--sage);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      margin: 0 0 24px;
+    }
+    h1 {
+      font-size: clamp(48px, 7vw, 86px);
+      line-height: .97;
+      letter-spacing: -.055em;
+      margin: 0;
+      font-weight: 600;
+      max-width: 820px;
+    }
+    .hero-intro {
+      font-size: clamp(20px, 2.4vw, 28px);
+      line-height: 1.4;
+      letter-spacing: -.025em;
+      margin: 34px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+    }
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 28px;
+      font: 500 12px/1.4 "IBM Plex Mono", monospace;
+    }
+    .hero-links a,
+    .hero-links span {
+      text-underline-offset: 4px;
+    }
+    .hero-links a:hover,
+    .hero-links a:focus-visible { color: var(--accent); }
+    .hero-links a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+    .hero-links span {
+      color: var(--muted);
+      cursor: default;
+    }
+    .hero-aside {
+      border-top: 3px solid var(--text);
+      padding-top: 18px;
+      align-self: end;
+    }
+    .hero-aside p { margin: 0 0 30px; color: var(--muted); font-size: 14px; }
+    .status {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--text);
+    }
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      margin-top: 4px;
+      flex: none;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    .section { padding: 86px 0; border-bottom: 1px solid var(--line); }
+    .section-label {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin: 0 0 36px;
+    }
+    .project-head {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+      margin-bottom: 56px;
+    }
+    h2 {
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: 1.03;
+      letter-spacing: -.045em;
+      margin: 0;
+      font-weight: 600;
+    }
+    .subhead {
+      display: block;
+      margin-top: 12px;
+      font-size: .46em;
+      line-height: 1.3;
+      letter-spacing: -.015em;
+      color: var(--sage);
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 500;
+    }
+    .project-question {
+      font-size: 21px;
+      line-height: 1.45;
+      color: var(--muted);
+      margin: 0;
+      max-width: 520px;
+    }
+    .project-summary {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+      padding: 24px 0 26px;
+      border-top: 1px solid var(--line);
+    }
+    .project-summary strong {
+      color: var(--sage);
+      font: 500 11px/1.5 "IBM Plex Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .project-summary p {
+      max-width: 780px;
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 48px;
+    }
+    .stat { padding: 25px 18px 27px 0; }
+    .stat + .stat { border-left: 1px solid var(--line); padding-left: 26px; }
+    .stat strong { display: block; font-size: 32px; letter-spacing: -.04em; line-height: 1; margin-bottom: 8px; }
+    .stat span { color: var(--muted); font-size: 13px; }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, .75fr);
+      gap: 36px;
+      align-items: stretch;
+    }
+    .plot, .outcomes { background: var(--surface); box-shadow: 0 14px 35px var(--shadow); }
+    .plot { padding: 28px 28px 20px; }
+    .plot-header { display: flex; align-items: baseline; justify-content: space-between; gap: 15px; margin-bottom: 12px; }
+    .plot-header h3, .outcomes h3 { font-size: 17px; margin: 0; font-weight: 700; }
+    .legend { font-size: 11px; color: var(--muted); }
+    .plot svg { display: block; width: 100%; height: auto; min-height: 300px; }
+    .axis { stroke: var(--line-strong); stroke-width: 1.25; }
+    .gridline { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 7; }
+    .path { fill: none; stroke: var(--sage); stroke-width: 2.5; }
+    .point { fill: var(--surface); stroke: var(--dot); stroke-width: 3; }
+    .point-final { fill: var(--accent); stroke: var(--surface); stroke-width: 3; }
+    .svg-label { fill: var(--text); font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+    .svg-muted { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 11px; }
+
+    .outcomes { padding: 28px; display: flex; flex-direction: column; }
+    .metric-list { margin-top: 30px; border-top: 1px solid var(--line); }
+    .metric { padding: 24px 0; border-bottom: 1px solid var(--line); }
+    .metric-top { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; }
+    .metric-name { color: var(--muted); font-size: 13px; }
+    .metric-value { font-size: 18px; white-space: nowrap; }
+    .metric-value b { color: var(--accent); font-weight: 500; }
+    .bar { height: 5px; background: var(--line); margin-top: 14px; overflow: hidden; }
+    .bar > i { display: block; height: 100%; background: var(--sage); }
+    .outcome-note { margin: auto 0 0; padding-top: 26px; font-size: 12px; color: var(--muted); }
+    .actions { display: flex; align-items: center; gap: 18px; margin-top: 34px; }
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      min-height: 46px;
+      padding: 0 19px;
+      background: var(--text);
+      color: var(--bg);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .button:hover { background: var(--accent); color: #fff; }
+    .text-link { font-size: 13px; color: var(--muted); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+    .text-link:hover { color: var(--accent); }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+    .detail-panel {
+      min-height: 350px;
+      padding: 34px;
+      background: var(--surface);
+      box-shadow: 0 14px 35px var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+    .detail-panel-dark { background: var(--ink-panel); color: var(--ink-panel-text); }
+    .detail-panel-accent { background: var(--accent-panel); }
+    .detail-label {
+      margin: 0 0 24px;
+      color: var(--accent);
+      font: 500 11px/1.2 "IBM Plex Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .detail-panel-dark .detail-label { color: inherit; opacity: .72; }
+    .detail-panel h3 {
+      max-width: 470px;
+      margin: 0 0 18px;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.13;
+      letter-spacing: -.035em;
+    }
+    .detail-panel > p:not(.detail-label):not(.project-note) {
+      max-width: 540px;
+      margin: 0;
+      color: var(--muted);
+    }
+    .detail-panel-dark > p:not(.detail-label):not(.project-note) { color: inherit; opacity: .78; }
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      list-style: none;
+      padding: 0;
+      margin: auto 0 0;
+    }
+    .tag-list li {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      font: 500 11px/1.3 "IBM Plex Mono", monospace;
+    }
+    .compact-steps, .coverage-list { list-style: none; margin: 0; padding: 0; }
+    .compact-steps li, .coverage-list li {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      padding: 13px 0;
+      border-top: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .compact-steps li:last-child, .coverage-list li:last-child { border-bottom: 1px solid color-mix(in srgb, currentColor 24%, transparent); }
+    .compact-steps span, .coverage-list span { font: 500 10px/1.7 "IBM Plex Mono", monospace; color: var(--accent); }
+    .detail-panel-dark .compact-steps span { color: inherit; opacity: .68; }
+    .project-note {
+      margin: auto 0 0;
+      padding-top: 24px;
+      color: inherit;
+      opacity: .72;
+      font-size: 12px;
+    }
+    .config-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px;
+      margin-top: auto;
+      padding-top: 28px;
+      font: 500 11px/1.3 "IBM Plex Mono", monospace;
+    }
+    .config-flow span { padding: 9px 10px; background: var(--surface); }
+    .config-flow b { color: var(--accent); font-weight: 500; }
+
+    .method-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; }
+    .method-intro h2 { font-size: clamp(32px, 4vw, 48px); }
+    .method-intro p { color: var(--muted); margin: 20px 0 0; max-width: 320px; }
+    .pipeline { list-style: none; padding: 0; margin: 0; counter-reset: method; }
+    .pipeline li {
+      counter-increment: method;
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      align-items: center;
+      min-height: 72px;
+      border-top: 1px solid var(--line);
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .pipeline li:last-child { border-bottom: 1px solid var(--line); }
+    .pipeline li::before {
+      content: counter(method, decimal-leading-zero);
+      font-family: "IBM Plex Mono", monospace;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    .cases-head { display: flex; justify-content: space-between; align-items: end; gap: 50px; margin-bottom: 36px; }
+    .cases-head p { max-width: 390px; margin: 0; color: var(--muted); }
+    .case-list { border-top: 1px solid var(--line-strong); }
+    .case-row {
+      display: grid;
+      grid-template-columns: 70px 1fr auto;
+      align-items: center;
+      gap: 18px;
+      min-height: 92px;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+    }
+    .index { color: var(--accent); font-size: 12px; }
+    .case-row h3 { margin: 0; font-size: clamp(20px, 2.6vw, 29px); letter-spacing: -.025em; font-weight: 600; }
+    .case-row span:last-child { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+    .case-row:hover h3 { color: var(--accent); }
+
+    .about { display: grid; grid-template-columns: .7fr 1.3fr; gap: 100px; align-items: start; }
+    .about h2 { font-size: clamp(34px, 4vw, 48px); }
+    .about-copy p { font-size: clamp(20px, 2.4vw, 27px); line-height: 1.55; letter-spacing: -.02em; margin: 0 0 26px; }
+    .about-copy p:last-child { color: var(--muted); }
+    footer { min-height: 120px; display: flex; justify-content: space-between; align-items: center; gap: 24px; color: var(--muted); font-size: 12px; }
+    footer a { text-underline-offset: 4px; }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 32px, 680px); }
+      .topline { min-height: 62px; justify-content: flex-start; }
+      .nav { gap: 18px; flex-wrap: wrap; }
+      .nav a { font-size: 12px; white-space: nowrap; }
+      .hero { grid-template-columns: 1fr; gap: 56px; min-height: auto; padding: 72px 0 52px; }
+      .hero-intro { font-size: 20px; }
+      .hero-aside { width: 100%; }
+      .section { padding: 62px 0; }
+      .section-label { margin-bottom: 28px; }
+      .project-head, .evidence-grid, .detail-grid, .method-layout, .about { grid-template-columns: 1fr; }
+      .project-head { gap: 28px; margin-bottom: 38px; }
+      .project-summary { grid-template-columns: 1fr; gap: 8px; }
+      .evidence-grid, .detail-grid { gap: 20px; }
+      .detail-panel { min-height: auto; padding: 26px 22px; }
+      .tag-list, .config-flow { margin-top: 34px; }
+      .actions { align-items: flex-start; flex-direction: column; gap: 13px; }
+      .method-layout { gap: 42px; }
+      .about { gap: 34px; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { display: flex; align-items: baseline; gap: 12px; padding: 18px 0; }
+      .stat + .stat { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; }
+      .stat strong { font-size: 26px; margin: 0; min-width: 42px; }
+      .plot { padding: 22px 16px 14px; }
+      .plot-header { align-items: flex-start; flex-direction: column; gap: 3px; }
+      .plot svg { min-height: 240px; }
+      .svg-label { font-size: 11px; }
+      .svg-muted { font-size: 9px; }
+      .cases-head { align-items: start; flex-direction: column; gap: 18px; }
+      .case-row { grid-template-columns: 42px minmax(0, 1fr); min-height: 78px; }
+      .case-row span:last-child { display: none; }
+      footer { align-items: flex-start; flex-direction: column; justify-content: center; padding: 30px 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topline" aria-label="Site navigation">
+      <nav class="nav">
+        <a href="#projects">Projects</a>
+        <a href="#approach">Approach</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">AI Systems · Evaluation · Product Data Science</p>
+          <h1 id="page-title">Yany<br>(Anne) Liu</h1>
+          <p class="hero-intro">I build empirical frameworks that turn complex AI product behavior into measurable decisions.</p>
+          <div class="hero-links" aria-label="Profile links">
+            <a href="https://github.com/YanyuLiu" target="_blank" rel="noopener noreferrer">[GitHub]</a>
+            <a href="https://www.linkedin.com/in/yanyu-anne-liu-59b2b7ab" target="_blank" rel="noopener noreferrer">[LinkedIn]</a>
+          </div>
+        </div>
+        <aside class="hero-aside" aria-label="Current focus">
+          <p>Product data scientist exploring dependable, useful AI through experiment design, behavioral evaluation, and product analytics.</p>
+          <div class="status"><span class="status-dot" aria-hidden="true"></span><span>Current focus<br>AI evaluation &amp; product intelligence</span></div>
+        </aside>
+      </section>
+
+      <section class="section project" id="projects" aria-labelledby="project-one-title">
+        <p class="section-label">Selected work · 01</p>
+        <div class="project-head">
+          <h2 id="project-one-title">Evaluating Meta Muse <span class="subhead">Agent Mandate Adherence</span></h2>
+          <p class="project-question">Can a personal AI agent remain useful while reliably staying within the authority granted by the user?</p>
+        </div>
+
+        <div class="project-summary">
+          <strong>Project summary</strong>
+          <p>A product-level evaluation protocol for Meta Muse that tests whether the agent respects user authorization, resists indirect prompt injection, and preserves meaningful human oversight. Thirty scenarios combine deterministic safety checks, human utility ratings, and bootstrap confidence intervals; the framework is complete and ready for evaluation runs.</p>
+        </div>
+
+        <div class="stats" aria-label="Meta Muse evaluation scope">
+          <div class="stat"><strong>30</strong><span>evaluation scenarios</span></div>
+          <div class="stat"><strong>3</strong><span>behavioral dimensions</span></div>
+          <div class="stat"><strong>3</strong><span>evaluation layers</span></div>
+        </div>
+
+        <div class="detail-grid">
+          <article class="detail-panel">
+            <p class="detail-label">Research frame</p>
+            <h3>Product-level behavior, observed end to end.</h3>
+            <p>The project evaluates Muse as a complete agentic product rather than attributing outcomes to hidden model internals.</p>
+            <ul class="tag-list" aria-label="Evaluation dimensions">
+              <li>Authorization boundaries</li>
+              <li>Indirect prompt injection</li>
+              <li>Confirmation &amp; human oversight</li>
+            </ul>
+          </article>
+          <article class="detail-panel detail-panel-dark">
+            <p class="detail-label">Evaluation stack</p>
+            <ol class="compact-steps">
+              <li><span>01</span>Black-box behavioral observation</li>
+              <li><span>02</span>Deterministic safety scoring</li>
+              <li><span>03</span>Human utility annotation</li>
+              <li><span>04</span>Bootstrap confidence intervals</li>
+            </ol>
+            <p class="project-note">Status: framework and protocol complete; evaluation results have not yet been collected.</p>
+          </article>
+        </div>
+
+        <div class="actions">
+          <a class="button" href="https://github.com/YanyuLiu/meta_muse_eval" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#approach">See the approach</a>
+        </div>
+      </section>
+
+      <section class="section project" id="project-two" aria-labelledby="project-two-title">
+        <p class="section-label">Selected work · 02</p>
+        <div class="project-head">
+          <h2 id="project-two-title">Agent Evaluation Framework <span class="subhead">Prompt Injection &amp; Tool Misuse</span></h2>
+          <p class="project-question">How reliably can a tool-using AI agent complete legitimate tasks while resisting adversarial instructions and unauthorized actions?</p>
+        </div>
+
+        <div class="project-summary">
+          <strong>Project summary</strong>
+          <p>A lightweight Python benchmark for tool-using agents under adversarial and benign conditions. Roughly 50 cases compare a baseline agent with instruction-hierarchy and deterministic permission-gate variants, measuring task completion, safety, and calibration without hard-coding performance results.</p>
+        </div>
+
+        <div class="stats" aria-label="Agent evaluation framework scope">
+          <div class="stat"><strong>~50</strong><span>evaluation cases</span></div>
+          <div class="stat"><strong>5</strong><span>test categories</span></div>
+          <div class="stat"><strong>3</strong><span>agent configurations</span></div>
+        </div>
+
+        <div class="detail-grid">
+          <article class="detail-panel detail-panel-accent">
+            <p class="detail-label">System comparison</p>
+            <h3>Measure safety, utility, and calibration together.</h3>
+            <p>A lightweight Python harness compares a baseline agent, explicit instruction hierarchy, and hierarchy plus a deterministic permission gate.</p>
+            <div class="config-flow" aria-label="Three evaluated configurations">
+              <span>Baseline</span><b aria-hidden="true">→</b><span>Hierarchy</span><b aria-hidden="true">→</b><span>Permission gate</span>
+            </div>
+          </article>
+          <article class="detail-panel">
+            <p class="detail-label">Test coverage</p>
+            <ul class="coverage-list">
+              <li><span>01</span>Direct prompt injection</li>
+              <li><span>02</span>Indirect prompt injection</li>
+              <li><span>03</span>Unauthorized tool use</li>
+              <li><span>04</span>Sensitive-data exfiltration</li>
+              <li><span>05</span>Benign controls for over-refusal</li>
+            </ul>
+            <p class="project-note">Metrics are generated from evaluation runs; the repository does not hardcode performance results.</p>
+          </article>
+        </div>
+
+        <div class="actions">
+          <a class="button" href="https://github.com/YanyuLiu/ai_safety_eval" target="_blank" rel="noopener noreferrer">View repository <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+
+      <section class="section" id="approach" aria-labelledby="approach-title">
+        <p class="section-label">Approach</p>
+        <div class="method-layout">
+          <div class="method-intro">
+            <h2 id="approach-title">From product question to evidence.</h2>
+            <p>A practical workflow for turning ambiguous AI behavior into reproducible measurements and decision-ready findings.</p>
+          </div>
+          <ol class="pipeline">
+            <li>Frame the Product Question</li>
+            <li>Define Observable Behavior</li>
+            <li>Design Evaluation Scenarios</li>
+            <li>Separate Deterministic &amp; Judgment-Based Labels</li>
+            <li>Quantify Uncertainty</li>
+            <li>Translate Findings into Product Decisions</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section about" id="about" aria-labelledby="about-title">
+        <div>
+          <p class="section-label">About</p>
+          <h2 id="about-title">Clarity before claims.</h2>
+        </div>
+        <div class="about-copy">
+          <p>Product data scientist with 10+ years of experience turning ambiguous questions into measurable decisions.</p>
+          <p>Interested in AI product strategy, evaluation, model behavior, and the measurement systems that connect technical performance to real user value.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Yany (Anne) Liu</span>
+      <a href="#page-title">Back to top ↑</a>
+    </footer>
+  </div>
+</body>
+</html>
